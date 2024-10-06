@@ -26,15 +26,17 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64"]
   }
 
   filter {
     name = "virtualization-type"
     values = ["hvm"]
   }
-
-  owners = ["099720109477"] # Canonical
+  filter {
+    name = "architecture"
+    values = ["x86_64"]
+  }
 }
 
 resource "aws_instance" "web" {
