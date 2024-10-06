@@ -26,17 +26,15 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name = "name"
-    values = ["/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64*"]
   }
 
   filter {
     name = "virtualization-type"
     values = ["hvm"]
   }
-  filter {
-    name = "architecture"
-    values = ["x86_64"]
-  }
+
+  owners = ["099720109477"] # Canonical
 }
 
 resource "aws_instance" "web" {
