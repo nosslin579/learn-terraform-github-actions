@@ -60,10 +60,15 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+resource "aws_iam_instance_profile" "ec2_profile" {
+  name = "app1-ec2-profile"
+  role = aws_iam_role.ec2_role.name
+}
+
 resource "aws_instance" "web" {
   ami                  = data.aws_ami.ubuntu.id
   instance_type        = "t2.micro"
-  iam_instance_profile = aws_iam_instance_profile.ec2_role.name
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
   user_data = <<-EOF
