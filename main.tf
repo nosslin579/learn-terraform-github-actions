@@ -33,9 +33,13 @@ resource "aws_iam_role" "ec2_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "custom_attachment_for_ec2" {
+resource "aws_iam_role_policy_attachment" "custom_attachment_for_ec2_instance_core" {
   role       = aws_iam_role.ec2_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+resource "aws_iam_role_policy_attachment" "custom_attachment_for_ec2_full_access" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }
 
 resource "random_pet" "sg" {}
