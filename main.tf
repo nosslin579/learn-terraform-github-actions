@@ -19,6 +19,7 @@ provider "aws" {
   region = "us-west-2"
 }
 resource "aws_iam_role" "ec2_role" {
+  name = "app1-ec2-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -31,6 +32,12 @@ resource "aws_iam_role" "ec2_role" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "custom_attachment_for_ec2" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 resource "random_pet" "sg" {}
 
 data "aws_ami" "ubuntu" {
