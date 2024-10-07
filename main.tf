@@ -18,7 +18,19 @@ terraform {
 provider "aws" {
   region = "us-west-2"
 }
-
+resource "aws_iam_role" "ec2_role" {
+  assume_role_policy = jsondecode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : "sts:AssumeRole",
+        "Effect" : "Allow",
+        "Sid" : "",
+        "Principal" : { "Service" : "ec2.amazonaws.com" }
+      }
+    ]
+  })
+}
 resource "random_pet" "sg" {}
 
 data "aws_ami" "ubuntu" {
@@ -51,7 +63,7 @@ resource "aws_instance" "web" {
               systemctl restart apache2
               EOF
 }
-
+# aws ssm send-command --document-name "AWS-ConfigureAWSPackage" --instance-ids "i-0f0dce24d27b5f626" --parameters '{"action":["Install"],"name":["asdf"]}'
 resource "aws_security_group" "web-sg" {
   name = "${random_pet.sg.id}-sg"
   ingress {
