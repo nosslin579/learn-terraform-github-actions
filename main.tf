@@ -63,7 +63,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-  iam_instance_profile = "aws_iam_instance_profile.ec2_role.name"
+#   iam_instance_profile = "aws_iam_instance_profile.ec2_role.name"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
   user_data = <<-EOF
